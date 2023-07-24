@@ -12,7 +12,7 @@ export class UserOrderByWithRelationInput
   implements Required<Prisma.UserOrderByWithRelationInput>
 {
   @Field(() => SellerOrderByWithRelationInput, { nullable: true })
-  Seller: SellerOrderByWithRelationInput
+  seller: SellerOrderByWithRelationInput
   @Field(() => SortOrder, { nullable: true })
   uid: SortOrder
   @Field(() => SortOrder, { nullable: true })
@@ -26,13 +26,13 @@ export class UserOrderByWithRelationInput
   @Field(() => SortOrder, { nullable: true })
   about: SortOrder
   @Field(() => ViewOrderByRelationAggregateInput, { nullable: true })
-  View: ViewOrderByRelationAggregateInput
+  views: ViewOrderByRelationAggregateInput
   @Field(() => OrderOrderByRelationAggregateInput, { nullable: true })
-  Order: OrderOrderByRelationAggregateInput
+  orders: OrderOrderByRelationAggregateInput
   @Field(() => SupportOrderByRelationAggregateInput, { nullable: true })
-  Support: SupportOrderByRelationAggregateInput
+  supports: SupportOrderByRelationAggregateInput
   @Field(() => UserProductOrderByRelationAggregateInput, { nullable: true })
-  UserProduct: UserProductOrderByRelationAggregateInput
+  userProducts: UserProductOrderByRelationAggregateInput
 
   // Todo: Add properties
   // @Field(() => Prisma.SortOrder, { nullable: true })

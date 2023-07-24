@@ -19,7 +19,7 @@ export class UserWhereUniqueInput
 @InputType()
 export class UserWhereInput implements Required<Prisma.UserWhereInput> {
   @Field(() => SellerRelationFilter, { nullable: true })
-  Seller: SellerRelationFilter
+  seller: SellerRelationFilter
 
   @Field(() => StringFilter, { nullable: true })
   uid: StringFilter
@@ -34,13 +34,13 @@ export class UserWhereInput implements Required<Prisma.UserWhereInput> {
   @Field(() => StringFilter, { nullable: true })
   about: StringFilter
   @Field(() => ViewListRelationFilter, { nullable: true })
-  View: ViewListRelationFilter
+  views: ViewListRelationFilter
   @Field(() => OrderListRelationFilter, { nullable: true })
-  Order: OrderListRelationFilter
+  orders: OrderListRelationFilter
   @Field(() => SupportListRelationFilter, { nullable: true })
-  Support: SupportListRelationFilter
+  supports: SupportListRelationFilter
   @Field(() => UserProductListRelationFilter, { nullable: true })
-  UserProduct: UserProductListRelationFilter
+  userProducts: UserProductListRelationFilter
 
   @Field(() => [UserWhereInput], { nullable: true })
   AND: UserWhereInput[]

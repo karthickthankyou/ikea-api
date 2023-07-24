@@ -3,16 +3,15 @@ import { User as UserType } from '@prisma/client'
 
 @ObjectType()
 export class User implements UserType {
-  @Field(() => String)
   createdAt: Date
-  @Field(() => String)
+
   updatedAt: Date
-  @Field(() => String)
+
   uid: string
-  @Field(() => String)
+
   displayName: string
-  @Field(() => String)
+  @Field({ nullable: true })
   address: string
-  @Field(() => String)
+  @Field({ nullable: true })
   about: string
 }

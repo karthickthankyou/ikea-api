@@ -8,28 +8,29 @@ export class Product implements ProductType {
   createdAt: Date
   updatedAt: Date
   name: string
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   url: string
   @Field(() => Float)
   price: number
   category: string
+  @Field({ nullable: true })
   subCategory: string
-  @Field(() => Boolean, { nullable: true })
+  @Field({ nullable: true })
   outOfStock: boolean
-  @Field(() => Int, { nullable: true })
+  @Field({ nullable: true })
   reviews: number
-  @Field(() => Float, { nullable: true })
+  @Field({ nullable: true })
   rating: number
-  @Field(() => Float, { nullable: true })
+  @Field({ nullable: true })
   discount: number
-  @Field(() => Float, { nullable: true })
+  @Field({ nullable: true })
   oldPrice: number
   tags: string[]
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   description: string
   sellerId: string
   @Field(() => [String])
   images: string[]
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   measurements: string
 }

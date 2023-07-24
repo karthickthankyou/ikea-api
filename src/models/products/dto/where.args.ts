@@ -73,11 +73,11 @@ export class ProductWhereInput implements Required<Prisma.ProductWhereInput> {
   @Field(() => SellerRelationFilter, { nullable: true })
   seller: SellerRelationFilter
   @Field(() => ViewListRelationFilter, { nullable: true })
-  View: ViewListRelationFilter
+  views: ViewListRelationFilter
   @Field(() => OrderListRelationFilter, { nullable: true })
-  Order: OrderListRelationFilter
+  orders: OrderListRelationFilter
   @Field(() => UserProductListRelationFilter, { nullable: true })
-  UserProduct: UserProductListRelationFilter
+  userProducts: UserProductListRelationFilter
 
   @Field(() => [ProductWhereInput], { nullable: true })
   AND: ProductWhereInput[]

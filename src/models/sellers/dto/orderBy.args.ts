@@ -17,7 +17,7 @@ export class SellerOrderByWithRelationInput
   @Field(() => SortOrder, { nullable: true })
   updatedAt: SortOrder
   @Field(() => ProductOrderByRelationAggregateInput, { nullable: true })
-  Product: ProductOrderByRelationAggregateInput
+  product: ProductOrderByRelationAggregateInput
 }
 
 @InputType()

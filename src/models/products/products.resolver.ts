@@ -24,6 +24,7 @@ import { GetUserType } from 'src/common/types'
 import { checkRowLevelPermission } from 'src/common/util'
 import { ProductWhereInput } from './dto/where.args'
 import { ProductCountOutput } from './dto/count.output'
+import { Seller } from '../sellers/entities/seller.entity'
 
 @Resolver(() => Product)
 export class ProductsResolver {
@@ -123,5 +124,10 @@ export class ProductsResolver {
   userProducts(@Parent() parent: Product, @GetUser() user: GetUserType) {
     checkRowLevelPermission(user, parent.sellerId)
     return this.prisma.userProduct.findMany({ where: { pid: parent.id } })
+  }
+
+  @ResolveField(() => Seller, { nullable: true })
+  seller(@Parent() parent: Product) {
+    return this.prisma.seller.findUnique({ where: { uid: parent.sellerId } })
   }
 }

@@ -49,11 +49,11 @@ export class ProductOrderByWithRelationInput
   @Field(() => SellerOrderByWithRelationInput, { nullable: true })
   seller: SellerOrderByWithRelationInput
   @Field(() => ViewOrderByRelationAggregateInput, { nullable: true })
-  View: ViewOrderByRelationAggregateInput
+  views: ViewOrderByRelationAggregateInput
   @Field(() => OrderOrderByRelationAggregateInput, { nullable: true })
-  Order: OrderOrderByRelationAggregateInput
+  orders: OrderOrderByRelationAggregateInput
   @Field(() => UserProductOrderByRelationAggregateInput, { nullable: true })
-  UserProduct: UserProductOrderByRelationAggregateInput
+  userProducts: UserProductOrderByRelationAggregateInput
 
   // Todo: Add properties
 

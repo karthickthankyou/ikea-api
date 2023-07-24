@@ -11,17 +11,17 @@ datasource db {
 }
 
 model User {
-    uid         String        @id
-    createdAt   DateTime      @default(now())
-    updatedAt   DateTime      @updatedAt
-    displayName String
-    address     String?
-    about       String?
-    View        View[]
-    Order       Order[]
-    Support     Support[]
-    UserProduct UserProduct[]
-    Seller      Seller?
+    uid          String        @id
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @updatedAt
+    displayName  String
+    address      String?
+    about        String?
+    views        View[]
+    orders       Order[]
+    supports     Support[]
+    userProducts UserProduct[]
+    seller       Seller?
 }
 
 model Seller {
@@ -30,7 +30,7 @@ model Seller {
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
-    Product   Product[]
+    product   Product[]
 }
 
 model Product {
@@ -53,9 +53,9 @@ model Product {
     description  String?       @db.Text
     sellerId     String
     seller       Seller        @relation(fields: [sellerId], references: [uid])
-    View         View[]
-    Order        Order[]
-    UserProduct  UserProduct[]
+    views        View[]
+    orders       Order[]
+    userProducts UserProduct[]
 }
 
 model UserProduct {
@@ -77,11 +77,11 @@ model Order {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    pid      Int
-    product  Product    @relation(fields: [pid], references: [id])
-    uid      String
-    user     User       @relation(fields: [uid], references: [uid])
-    OrderLog OrderLog[]
+    pid       Int
+    product   Product    @relation(fields: [pid], references: [id])
+    uid       String
+    user      User       @relation(fields: [uid], references: [uid])
+    orderLogs OrderLog[]
 
     status OrderStatus
 }

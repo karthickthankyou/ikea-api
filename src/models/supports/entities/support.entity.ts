@@ -11,6 +11,8 @@ export class Support implements SupportType {
   uid: string
   title: string
   message: string
+  @Field({ nullable: true })
   location: string
+  @Field({ nullable: true })
   category: string
 }

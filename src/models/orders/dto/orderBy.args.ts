@@ -26,7 +26,7 @@ export class OrderOrderByWithRelationInput
   @Field(() => UserOrderByWithRelationInput, { nullable: true })
   user: UserOrderByWithRelationInput
   @Field(() => OrderLogOrderByRelationAggregateInput, { nullable: true })
-  OrderLog: OrderLogOrderByRelationAggregateInput
+  orderLogs: OrderLogOrderByRelationAggregateInput
 }
 
 @InputType()

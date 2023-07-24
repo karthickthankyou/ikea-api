@@ -23,7 +23,7 @@ export class SellerWhereInput implements Required<Prisma.SellerWhereInput> {
   @Field(() => DateTimeFilter, { nullable: true })
   updatedAt: DateTimeFilter
   @Field(() => ProductListRelationFilter, { nullable: true })
-  Product: ProductListRelationFilter
+  product: ProductListRelationFilter
 
   @Field(() => [SellerWhereInput], { nullable: true })
   AND: SellerWhereInput[]

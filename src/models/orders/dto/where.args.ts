@@ -23,7 +23,7 @@ export class OrderWhereUniqueInput
 @InputType()
 export class OrderWhereInput implements Required<Prisma.OrderWhereInput> {
   @Field(() => OrderLogListRelationFilter, { nullable: true })
-  OrderLog: OrderLogListRelationFilter
+  orderLogs: OrderLogListRelationFilter
   @Field(() => IntFilter, { nullable: true })
   id: IntFilter
   @Field(() => DateTimeFilter, { nullable: true })

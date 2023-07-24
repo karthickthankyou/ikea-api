@@ -28,7 +28,7 @@ import { ViewsModule } from './models/views/views.module'
       buildSchemaOptions: {
         numberScalarMode: 'integer',
       },
-      //   introspection: true,
+      introspection: true,
     }),
 
     PrismaModule,

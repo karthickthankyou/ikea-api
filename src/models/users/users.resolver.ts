@@ -90,7 +90,7 @@ export class UsersResolver {
     return this.prisma.userProduct.findMany({ where: { uid: parent.uid } })
   }
 
-  @ResolveField(() => Seller)
+  @ResolveField(() => Seller, { nullable: true })
   seller(@Parent() parent: User) {
     return this.prisma.seller.findUnique({ where: { uid: parent.uid } })
   }
