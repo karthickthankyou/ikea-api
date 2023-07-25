@@ -18,11 +18,11 @@ export default class StripeService {
       payment_method_types: ['card'],
       line_items: items
         .filter(({ price }) => price > 0)
-        .map(({ title, price }) => ({
+        .map(({ name, price }) => ({
           quantity: 1,
           price_data: {
             product_data: {
-              name: title,
+              name,
             },
             currency: 'inr',
             unit_amount: price * 100,
