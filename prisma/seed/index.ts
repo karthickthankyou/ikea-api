@@ -27,7 +27,6 @@ const main = async () => {
 
   await createUserDocuments()
   await createSellerDocuments()
-
   await createProductDocuments()
 }
 

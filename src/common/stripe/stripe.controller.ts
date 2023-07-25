@@ -2,10 +2,9 @@ import { Controller, Post, Body, Get, Query, Res } from '@nestjs/common'
 import { CreateStripeDto } from './dto/create-stripe-session.dto'
 import StripeService from './stripe.service'
 import { PrismaService } from 'src/common/prisma/prisma.service'
-import { CreateOrderInput } from 'prisma/seed/generated/graphql'
 import { Response } from 'express'
 import { OrdersService } from 'src/models/orders/orders.service'
-import { OrderStatus } from '@prisma/client'
+import { OrderStatus, UserProductStatus } from '@prisma/client'
 
 @Controller('stripe')
 export class StripeController {
@@ -17,6 +16,7 @@ export class StripeController {
 
   @Post()
   create(@Body() createStripeDto: CreateStripeDto) {
+    console.log('createStripeDto ', createStripeDto)
     return this.stripeService.createStripeSession(createStripeDto)
   }
 
@@ -29,14 +29,20 @@ export class StripeController {
       sessionId,
     )
     const { uid, items } = session.metadata
-    const purchasedItems: CreateOrderInput[] = JSON.parse(items)
-    for (let i = 0; i < purchasedItems.length; i++) {
-      const newPurchase = await this.ordersService.create({
+    const purchasedItems: CreateStripeDto['items'] = JSON.parse(items)
+    await this.prisma.order.createMany({
+      data: purchasedItems.map((item) => ({
+        pid: item.id,
         status: OrderStatus.ORDER_RECEIVED,
-        ...purchasedItems[i],
-      })
-    }
+        uid,
+      })),
+    })
 
-    res.redirect(process.env.BOOKINGS_REDIRECT_URL)
+    await this.prisma.userProduct.updateMany({
+      data: { status: UserProductStatus.PURCHASED },
+      where: { uid, status: UserProductStatus.IN_CART },
+    })
+
+    res.redirect(process.env.ORDERS_REDIRECT_URL)
   }
 }

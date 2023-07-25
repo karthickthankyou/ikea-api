@@ -55,6 +55,14 @@ export class UsersResolver {
   }
 
   @AllowAuthenticated()
+  @Query(() => User, { name: 'whoami' })
+  whoami(@GetUser() user: GetUserType) {
+    return this.usersService.findOne({
+      where: { uid: user.uid },
+    })
+  }
+
+  @AllowAuthenticated()
   @Mutation(() => User)
   updateUser(
     @Args('updateUserInput') args: UpdateUserInput,

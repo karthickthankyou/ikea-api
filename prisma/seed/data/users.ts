@@ -1,9 +1,10 @@
+import { PrismaClient } from '@prisma/client'
 import {
   CreateSellerDocument,
   CreateUserDocument,
   CreateUserInput,
 } from '../generated/graphql'
-import { allProducts } from './allProducts'
+
 import { getAuthHeader, gqlClient, setUserRoles } from './utils'
 
 export const creds = [
@@ -59,23 +60,14 @@ export const getCreateUsers: () => CreateUserInput[] = () => {
   }))
 }
 
+const prisma = new PrismaClient()
 export const createUserDocuments = async () => {
   await setUserRoles()
   for (const { email, name, uid } of creds) {
     const { authorization } = await getAuthHeader(uid)
-
-    const newUser = await gqlClient.request(
-      CreateUserDocument,
-      {
-        createUserInput: {
-          displayName: name,
-          uid,
-          about: '',
-          address: '',
-        },
-      },
-      { authorization },
-    )
+    await prisma.user.create({
+      data: { displayName: name, uid, about: '', address: '' },
+    })
   }
 }
 
@@ -84,14 +76,8 @@ export const createSellerDocuments = async () => {
   for (const { uid } of sellers) {
     const { authorization } = await getAuthHeader(uid)
 
-    const newSeller = await gqlClient.request(
-      CreateSellerDocument,
-      {
-        createSellerInput: {
-          uid,
-        },
-      },
-      { authorization },
-    )
+    await prisma.seller.create({
+      data: { uid },
+    })
   }
 }

@@ -133,9 +133,9 @@ type Product {
   subCategory: String
   outOfStock: Boolean
   reviews: Int
-  rating: Int
+  rating: Float
   discount: Int
-  oldPrice: Int
+  oldPrice: Float
   description: String
   images: [String!]!
   measurements: String
@@ -159,6 +159,7 @@ type ProductCountOutput {
 type Query {
   users(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: WhereUniqueInputUid, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
   user(where: UserWhereUniqueInput): User!
+  whoami: User!
   sellers(where: SellerWhereInput, orderBy: [SellerOrderByWithRelationInput!], cursor: WhereUniqueInputUid, take: Int, skip: Int, distinct: [SellerScalarFieldEnum!]): [Seller!]!
   seller(where: SellerWhereUniqueInput): Seller!
   products(where: ProductWhereInput, orderBy: [ProductOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ProductScalarFieldEnum!]): [Product!]!
@@ -767,9 +768,9 @@ input CreateProductInput {
   url: String
   outOfStock: Boolean
   reviews: Int
-  rating: Int
+  rating: Float
   discount: Int
-  oldPrice: Int
+  oldPrice: Float
   description: String
   measurements: String
 }
@@ -785,9 +786,9 @@ input UpdateProductInput {
   url: String
   outOfStock: Boolean
   reviews: Int
-  rating: Int
+  rating: Float
   discount: Int
-  oldPrice: Int
+  oldPrice: Float
   description: String
   measurements: String
   id: Int!

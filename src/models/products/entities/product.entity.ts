@@ -19,11 +19,11 @@ export class Product implements ProductType {
   outOfStock: boolean
   @Field({ nullable: true })
   reviews: number
-  @Field({ nullable: true })
+  @Field(() => Float, { nullable: true })
   rating: number
   @Field({ nullable: true })
   discount: number
-  @Field({ nullable: true })
+  @Field(() => Float, { nullable: true })
   oldPrice: number
   tags: string[]
   @Field({ nullable: true })

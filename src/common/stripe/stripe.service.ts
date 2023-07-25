@@ -13,19 +13,20 @@ export default class StripeService {
   }
 
   async createStripeSession({ items, uid }: CreateStripeDto) {
-    console.log('totalPriceObj,bookingData ', items)
+    console.log('totalPriceObj,bookingData ', items, uid)
     const session = await this.stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: items
         .filter(({ price }) => price > 0)
-        .map(({ name, price }) => ({
+        .map(({ name, price, image }) => ({
           quantity: 1,
           price_data: {
             product_data: {
               name,
+              images: [image],
             },
             currency: 'inr',
-            unit_amount: price * 100,
+            unit_amount: price,
           },
         })),
       mode: 'payment',
