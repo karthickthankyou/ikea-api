@@ -3,18 +3,23 @@
 # ------------------------------------------------------
 
 type User {
-  createdAt: String!
-  updatedAt: String!
+  address: String
+  about: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
   uid: String!
   displayName: String!
-  address: String!
-  about: String!
   views: [View!]!
   orders: [Order!]!
   supports: [Support!]!
   userProducts: [UserProduct!]!
-  seller: Seller!
+  seller: Seller
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type LoginOutput {
   kind: String!
@@ -46,21 +51,6 @@ type RefreshTokenOutput {
   project_id: String!
 }
 
-type OrderLog {
-  id: Int!
-  createdAt: String!
-  updatedAt: String!
-  orderId: Int!
-  status: OrderStatus!
-  order: Order!
-}
-
-enum OrderStatus {
-  ORDER_RECEIVED
-  DELIVERED
-  DISPATCHED
-}
-
 type View {
   pid: Int!
   uid: String!
@@ -70,11 +60,6 @@ type View {
   product: Product!
   user: User!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type Order {
   status: OrderStatus!
@@ -88,15 +73,21 @@ type Order {
   orderLogs: [OrderLog!]!
 }
 
+enum OrderStatus {
+  ORDER_RECEIVED
+  DELIVERED
+  DISPATCHED
+}
+
 type Support {
   id: Int!
   uid: String!
+  location: String
+  category: String
   createdAt: DateTime!
   updatedAt: DateTime!
   title: String!
   message: String!
-  location: String!
-  category: String!
   user: User!
 }
 
@@ -126,15 +117,25 @@ type Seller {
   products: [Product!]!
 }
 
+type OrderLog {
+  id: Int!
+  createdAt: String!
+  updatedAt: String!
+  orderId: Int!
+  status: OrderStatus!
+  order: Order!
+}
+
 type Product {
   id: Int!
   url: String
   price: Float!
+  subCategory: String
   outOfStock: Boolean
   reviews: Int
-  rating: Float
-  discount: Float
-  oldPrice: Float
+  rating: Int
+  discount: Int
+  oldPrice: Int
   description: String
   images: [String!]!
   measurements: String
@@ -142,13 +143,13 @@ type Product {
   updatedAt: DateTime!
   name: String!
   category: String!
-  subCategory: String!
   tags: [String!]!
   sellerId: String!
   views: [View!]!
   orders: [Order!]!
   userProduct: UserProduct
   userProducts: [UserProduct!]
+  seller: Seller
 }
 
 type ProductCountOutput {
@@ -163,8 +164,8 @@ type Query {
   products(where: ProductWhereInput, orderBy: [ProductOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ProductScalarFieldEnum!]): [Product!]!
   product(where: ProductWhereUniqueInput): Product!
   productAggregate(ProductWhereInput: ProductWhereInput): ProductCountOutput!
-  allUserProducts(where: UserProductWhereInput, orderBy: [UserProductOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [UserProductScalarFieldEnum!]): [UserProduct!]!
-  myProducts(where: UserProductWhereInput, orderBy: [UserProductOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [UserProductScalarFieldEnum!]): [UserProduct!]!
+  userProducts(where: UserProductWhereInput, orderBy: [UserProductOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [UserProductScalarFieldEnum!]): [UserProduct!]!
+  myUserProducts(where: UserProductWhereInput, orderBy: [UserProductOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [UserProductScalarFieldEnum!]): [UserProduct!]!
   userProduct(where: UserProductWhereUniqueInput): UserProduct!
   orders(where: OrderWhereInput, orderBy: [OrderOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderScalarFieldEnum!]): [Order!]!
   myOrders(where: OrderWhereInput, orderBy: [OrderOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderScalarFieldEnum!]): [Order!]!
@@ -182,17 +183,17 @@ type Query {
 }
 
 input UserWhereInput {
-  Seller: SellerRelationFilter
+  seller: SellerRelationFilter
   uid: StringFilter
   createdAt: DateTimeFilter
   updatedAt: DateTimeFilter
   displayName: StringFilter
   address: StringFilter
   about: StringFilter
-  View: ViewListRelationFilter
-  Order: OrderListRelationFilter
-  Support: SupportListRelationFilter
-  UserProduct: UserProductListRelationFilter
+  views: ViewListRelationFilter
+  orders: OrderListRelationFilter
+  supports: SupportListRelationFilter
+  userProducts: UserProductListRelationFilter
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
@@ -208,7 +209,7 @@ input SellerWhereInput {
   uid: StringFilter
   createdAt: DateTimeFilter
   updatedAt: DateTimeFilter
-  Product: ProductListRelationFilter
+  product: ProductListRelationFilter
   AND: [SellerWhereInput!]
   OR: [SellerWhereInput!]
   NOT: [SellerWhereInput!]
@@ -275,9 +276,9 @@ input ProductWhereInput {
   images: StringFilter
   measurements: StringFilter
   seller: SellerRelationFilter
-  View: ViewListRelationFilter
-  Order: OrderListRelationFilter
-  UserProduct: UserProductListRelationFilter
+  views: ViewListRelationFilter
+  orders: OrderListRelationFilter
+  userProducts: UserProductListRelationFilter
   AND: [ProductWhereInput!]
   OR: [ProductWhereInput!]
   NOT: [ProductWhereInput!]
@@ -330,7 +331,7 @@ input OrderListRelationFilter {
 }
 
 input OrderWhereInput {
-  OrderLog: OrderLogListRelationFilter
+  orderLogs: OrderLogListRelationFilter
   id: IntFilter
   createdAt: DateTimeFilter
   updatedAt: DateTimeFilter
@@ -423,17 +424,17 @@ input SupportWhereInput {
 }
 
 input UserOrderByWithRelationInput {
-  Seller: SellerOrderByWithRelationInput
+  seller: SellerOrderByWithRelationInput
   uid: SortOrder
   createdAt: SortOrder
   updatedAt: SortOrder
   displayName: SortOrder
   address: SortOrder
   about: SortOrder
-  View: ViewOrderByRelationAggregateInput
-  Order: OrderOrderByRelationAggregateInput
-  Support: SupportOrderByRelationAggregateInput
-  UserProduct: UserProductOrderByRelationAggregateInput
+  views: ViewOrderByRelationAggregateInput
+  orders: OrderOrderByRelationAggregateInput
+  supports: SupportOrderByRelationAggregateInput
+  userProducts: UserProductOrderByRelationAggregateInput
 }
 
 input SellerOrderByWithRelationInput {
@@ -441,7 +442,7 @@ input SellerOrderByWithRelationInput {
   uid: SortOrder
   createdAt: SortOrder
   updatedAt: SortOrder
-  Product: ProductOrderByRelationAggregateInput
+  product: ProductOrderByRelationAggregateInput
 }
 
 enum SortOrder {
@@ -516,9 +517,9 @@ input ProductOrderByWithRelationInput {
   images: SortOrder
   measurements: SortOrder
   seller: SellerOrderByWithRelationInput
-  View: ViewOrderByRelationAggregateInput
-  Order: OrderOrderByRelationAggregateInput
-  UserProduct: UserProductOrderByRelationAggregateInput
+  views: ViewOrderByRelationAggregateInput
+  orders: OrderOrderByRelationAggregateInput
+  userProducts: UserProductOrderByRelationAggregateInput
 }
 
 input WhereUniqueInputNumber {
@@ -583,7 +584,7 @@ input OrderOrderByWithRelationInput {
   status: SortOrder
   product: ProductOrderByWithRelationInput
   user: UserOrderByWithRelationInput
-  OrderLog: OrderLogOrderByRelationAggregateInput
+  orderLogs: OrderLogOrderByRelationAggregateInput
 }
 
 input OrderLogOrderByRelationAggregateInput {
@@ -732,16 +733,16 @@ enum RoleEnum {
 }
 
 input CreateUserInput {
+  address: String
   uid: String!
   displayName: String!
-  address: String!
   about: String
 }
 
 input UpdateUserInput {
+  address: String
   uid: String
   displayName: String
-  address: String
   about: String
   id: String!
 }
@@ -757,36 +758,36 @@ input UpdateSellerInput {
 
 input CreateProductInput {
   price: Float!
+  subCategory: String
   images: [String!]!
   name: String!
   category: String!
-  subCategory: String!
   tags: [String!]!
   sellerId: String!
   url: String
   outOfStock: Boolean
   reviews: Int
-  rating: Float
-  discount: Float
-  oldPrice: Float
+  rating: Int
+  discount: Int
+  oldPrice: Int
   description: String
   measurements: String
 }
 
 input UpdateProductInput {
   price: Float
+  subCategory: String
   images: [String!]
   name: String
   category: String
-  subCategory: String
   tags: [String!]
   sellerId: String
   url: String
   outOfStock: Boolean
   reviews: Int
-  rating: Float
-  discount: Float
-  oldPrice: Float
+  rating: Int
+  discount: Int
+  oldPrice: Int
   description: String
   measurements: String
   id: Int!
@@ -842,17 +843,17 @@ input UpdateViewInput {
 
 input CreateSupportInput {
   uid: String!
+  location: String
+  category: String
   title: String!
   message: String!
-  location: String!
-  category: String!
 }
 
 input UpdateSupportInput {
   uid: String
-  title: String
-  message: String
   location: String
   category: String
+  title: String
+  message: String
   id: Int!
 }

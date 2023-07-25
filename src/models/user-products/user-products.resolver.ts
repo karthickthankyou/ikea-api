@@ -43,18 +43,18 @@ export class UserProductsResolver {
   }
 
   @AllowAuthenticated('admin')
-  @Query(() => [UserProduct], { name: 'allUserProducts' })
+  @Query(() => [UserProduct], { name: 'userProducts' })
   findAll(@Args() args: FindManyUserProductArgs) {
     return this.userProductsService.findAll(args)
   }
 
   @AllowAuthenticatedOptional()
-  @Query(() => [UserProduct], { name: 'myProducts' })
-  myProducts(
+  @Query(() => [UserProduct], { name: 'myUserProducts' })
+  myUserProducts(
     @Args() args: FindManyUserProductArgs,
     @GetUser() user: GetUserType,
   ) {
-    if (!user.uid) return []
+    if (!user?.uid) return []
 
     return this.userProductsService.findAll({
       ...args,

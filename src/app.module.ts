@@ -17,6 +17,7 @@ import { SupportsModule } from './models/supports/supports.module'
 import { UserProductsModule } from './models/user-products/user-products.module'
 import { UsersModule } from './models/users/users.module'
 import { ViewsModule } from './models/views/views.module'
+import { StripeModule } from './common/stripe/stripe.module'
 
 @Module({
   imports: [
@@ -33,7 +34,7 @@ import { ViewsModule } from './models/views/views.module'
 
     PrismaModule,
     FirebaseModule,
-
+    StripeModule,
     AuthModule,
 
     UsersModule,

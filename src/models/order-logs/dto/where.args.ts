@@ -1,8 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
+import { OrderStatus, Prisma } from '@prisma/client'
 import { DateTimeFilter, IntFilter } from 'src/common/dtos/common.input'
 import { OrderRelationFilter } from 'src/models/orders/dto/where.args'
-import { OrderStatus } from '../entities/order-log.entity'
 
 @InputType()
 export class OrderLogWhereUniqueInput

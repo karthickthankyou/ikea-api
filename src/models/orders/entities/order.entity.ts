@@ -1,6 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { Order as OrderType } from '@prisma/client'
-import { OrderStatus } from 'src/models/order-logs/entities/order-log.entity'
+import { OrderStatus, Order as OrderType } from '@prisma/client'
 
 @ObjectType()
 export class Order implements OrderType {

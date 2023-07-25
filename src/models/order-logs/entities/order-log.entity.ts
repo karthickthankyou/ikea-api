@@ -1,11 +1,11 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
-import { OrderLog as OrderLogType } from '@prisma/client'
+import { OrderLog as OrderLogType, OrderStatus } from '@prisma/client'
 
-export enum OrderStatus {
-  ORDER_RECEIVED = 'ORDER_RECEIVED',
-  DELIVERED = 'DELIVERED',
-  DISPATCHED = 'DISPATCHED',
-}
+// export enum OrderStatus {
+//   ORDER_RECEIVED = 'ORDER_RECEIVED',
+//   DELIVERED = 'DELIVERED',
+//   DISPATCHED = 'DISPATCHED',
+// }
 
 registerEnumType(OrderStatus, {
   name: 'OrderStatus',
